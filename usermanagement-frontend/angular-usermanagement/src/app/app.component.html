@@ -1,0 +1,68 @@
+<div class="page-wrapper">
+
+  <!-- MENU SIDEBAR-->
+  <aside class="menu-sidebar d-none d-lg-block">
+    <div class="logo">
+      <a href="#">
+        <img src="assets/images/logo.png" alt="companyname" class="img-responsive pb-1">
+      </a>
+    </div>
+    <div class="menu-sidebar-content js-scrollbar1">
+      <nav class="navbar-sidebar">
+        <ul class="list-unstyled navbar-list">
+          <li>
+            <a routerLink="users" routerLinkActive="active-link">
+             Users List
+            </a>
+          </li>
+          <li>
+            <a routerLink="upload" routerLinkActive="active-link">
+             File Upload
+            </a>
+          </li>
+          <li>
+            <a  href="#" routerLinkActive="active-link">
+              Function 3
+            </a>
+          </li>
+          <li>
+            <a  href="#" routerLinkActive="active-link">
+              Function 4
+            </a>
+          </li>
+          <li>
+            <a  href="#" routerLinkActive="active-link">
+              Function 5
+            </a>
+          </li>
+         </ul>
+      </nav>
+    </div>
+  </aside>
+  <!-- END MENU SIDEBAR-->
+  <div class="page-container">
+    <!-- HEADER DESKTOP-->
+    <header class="header-desktop">
+      <div class="section-content section-content-p30">
+        <div class="container-fluid">
+          <div class="header-wrap">
+            <app-search></app-search>
+          </div>
+          <div class="account-wrap"></div>
+        </div>
+      </div>
+    </header>
+    <!-- END HEADER DESKTOP-->
+    <!-- MAIN CONTENT-->
+    <router-outlet></router-outlet>
+    <!--<app-product-list></app-product-list>-->
+  </div>
+  </div>
+  <!--End page container-->
+  <footer>
+		<ul>
+			<li><a href="#">About Us</a></li>
+			<li><a href="#">Contact Us</a></li>
+			<li><a href="#">Help</a></li>
+		</ul>
+	</footer>

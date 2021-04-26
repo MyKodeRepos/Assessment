@@ -1,0 +1,201 @@
+<div class="main-content">
+    <div class="section-content section-content-p30">
+        <div class="container-fluid">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 style="text-align: left">List of Employees</h5><br>
+                    <div class="row" [hidden]="!deleteMessage">
+
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4">
+                            <div class="alert alert-info alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                <strong>Employee Record Deleted</strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-4"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="panel-body" style="width:100%">
+                        <table mdbTable class="table table-hover"class="z-depth-1">
+                            <thead class="table-light">
+                                <tr>
+                                    <th *ngFor="let head of headElements; let i = index" aria-controls="tableSortExample" scope="col" [mdbTableSort]="users" [sortBy]="headElements[i]">{{head | titlecase}}
+                                        <mdb-icon fas icon="sort"></mdb-icon>
+                                    </th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-light">
+                                <tr *ngFor="let tempUser of users">
+                                    <td>{{tempUser.employeeId}}</td>
+                                    <td>{{tempUser.login}}</td>
+                                    <td>{{tempUser.name}}</td>
+                                    <td>{{tempUser.salary | number : '1.2-2'}}</td>
+                                    <td>
+                                        <!--<a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>-->
+                                        <!--<i class='material-icons' onclick='deleteRow(" + rowID + ")'>delete</i>
+                                <i class='material-icons' onclick='deleteRow(" + rowID + ")'>delete</i>-->
+                                        <button (click)="updateUser(tempUser.employeeId)" data-toggle="modal"
+                                            data-target="#myModal"><i class='fas fa-pen' style='color:blue'></i>
+                                        </button>
+                                        &nbsp;
+                                        <button (click)="deleteUser(tempUser.employeeId)"><i class="fa fa-trash"
+                                                style='color:red' aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+            <div *ngIf="users?.length == 0" class="alert-alert-warning col-md-12" role="alert">
+                No products found.
+            </div>
+
+            <div class="footer-pagination">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col" style="padding-top:5px">
+                                <button class="btn btn-primary active"  data-toggle="modal"
+                                data-target="#myAddModal">Add Employee</button>
+                            </div>
+                            <div class="col" class="pl-5">
+                                <ngb-pagination [(page)]="thePageNumber" [pageSize]="thePageSize"
+                                    [collectionSize]="theTotalElements" [maxSize]="5" [boundaryLinks]="true"
+                                    (pageChange)="listOfUsers()">
+
+                                </ngb-pagination>
+                            </div>
+                            <div class="col" style="text-align:right;padding-top:5px">
+                                <span class="mr-2">Page Size</span>
+                                <select #pageSelect (change)="updatePageSize(+pageSelect.value)">
+                                    <option>2</option>
+                                    <option selected="true">5</option>
+                                    <option>10</option>
+                                    <option>20</option>
+                                    <option>50</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form [formGroup]="userupdateform" #upduser (ngSubmit)="updateUserForm(upduser)">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title" style="text-align: center">Update Employee</h4>
+
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body" >
+
+                    <div [hidden]="isupdated">
+
+                        <input type="hidden" class="form-control" formControlName="employeeId"
+                            [ngModel]="usersList.employeeId">
+                        <div class="form-group">
+                            <label for="login">Employee Login</label>
+                            <input type="text" class="form-control" formControlName="login"
+                                [(ngModel)]="usersList.login" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name">Employee Name</label>
+                            <input type="text" class="form-control" formControlName="name"
+                                [(ngModel)]="usersList.name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="salary">Employee Salary</label>
+                            <input type="number" class="form-control" formControlName="salary"
+                                [(ngModel)]="usersList.salary">
+                        </div>
+
+
+                    </div>
+                    <div [hidden]="!isupdated">
+                        <h4>Employee Record updated!</h4>
+                    </div>
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    
+                    <button type="submit" class="btn btn-success" [hidden]="isupdated">Update</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"
+                        (click)="changeisUpdate()">Close</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myAddModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form [formGroup]="saveUserform" #saveUser (ngSubmit)="saveUserForm()">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title" style="text-align: center">Add Employee</h4>
+
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div [hidden]="isSaved">
+
+                        
+                        <div class="form-group">
+                            <label for="employeeId">Employee Id</label>
+                            <input type="text" class="form-control" formControlName="employeeId"
+                            data-toggle="tooltip" data-placement="right" title="Enter Employee Id">
+                        </div>
+                        <div class="form-group">
+                            <label for="login">Employee Login</label>
+                            <input type="text" class="form-control" formControlName="login"
+                            data-toggle="tooltip" data-placement="right" title="Enter Employee Login">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name">Employee Name</label>
+                            <input type="text" class="form-control" formControlName="name"
+                            data-toggle="tooltip" data-placement="right" title="Enter Employee Name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="salary">Employee Salary</label>
+                            <input type="number" class="form-control" formControlName="salary"
+                            data-toggle="tooltip" data-placement="right" title="Enter Employee Salary">
+                        </div>
+
+
+                    </div>
+                    <div [hidden]="!isSaved">
+                        <h4>Employee Record added successfully!</h4>
+                    </div>
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" [hidden]="isSaved">Add</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"
+                        (click)="changeisSaved()">Close</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

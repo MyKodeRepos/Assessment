@@ -1,0 +1,17 @@
+<div class="form-header">
+    <div>
+      <input #minSal type="text" placeholder="Enter minimum salary" 
+      class="au-input au-input-xl"  />
+      <!--(keyup.enter)="doSearch(+minSal.value , +maxSal.value)"-->
+     
+    </div>
+    <div class="pl-5 pr-5">
+      <input #maxSal type="text" placeholder="Enter maximum salary" 
+      class="au-input au-input-xl"/>
+      <!-- (keyup.enter)="doSearch(+minSal.value , +maxSal.value)"  -->
+    </div>
+
+    <button (click)="doSearch(+minSal.value , +maxSal.value)" class="au-btn-submit" >
+        Search
+    </button>
+</div>
